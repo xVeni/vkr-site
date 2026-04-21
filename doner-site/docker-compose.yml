@@ -31,9 +31,8 @@ services:
   frontend:
     build:
       context: ./client
-    container_name: doner_frontend
-    ports:
-      - '8080:80'
+    container_name:
+      doner_frontend
       #- "443:443" # Раскомментировать, когда настроите SSL сертификаты
     volumes:
       # Подставляем наш файл конфигурации nginx
