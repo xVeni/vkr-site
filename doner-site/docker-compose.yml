@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: doner_db
+    environment:
+      POSTGRES_USER: doner_user
+      POSTGRES_PASSWORD: 211204
+      POSTGRES_DB: doner_cafe
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Монтируем папку с дампом внутрь контейнера, чтобы мы могли его восстановить
+      - ./dumpBD:/docker-entrypoint-initdb.d
+    restart: always
+
+  backend:
+    build:
+      context: ./server/nest-back-cafe
+    container_name: doner_backend
+    env_file:
+      - ./server/nest-back-cafe/.env
+    environment:
+      # Важно: В Докере контейнеры общаются друг с другом по именам сервисов.
+      # То есть база данных доступна не по localhost, а по hostname 'db'
+      DB_HOST: db   
+    depends_on:
+      - db
+    restart: always
+
+  frontend:
+    build:
+      context: ./client
+    container_name: doner_frontend
+    ports:
+      - "80:80"
+      #- "443:443" # Раскомментировать, когда настроите SSL сертификаты
+    volumes:
+      # Подставляем наш файл конфигурации nginx
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  pgdata:

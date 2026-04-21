@@ -1,0 +1,36 @@
+Проект: vkr-site/doner-site
+Общая структура:
+- client/ : Фронтенд часть на React.
+- server/nest-back-cafe/ : Бэкенд часть на NestJS (REST API, работа с БД, интеграции).
+- dumpBD/ : Дамп базы данных PostgreSQL для загрузки на сервер.
+- env/ : Файл переменных свойств (конфигурация) приложения.
+
+ОПИСАНИЕ ФАЙЛОВ И ДИРЕКТОРИЙ:
+
+[ КЛИЕНТ (Frontend) - React ]
+/client/package.json - Зависимости (React, Redux, React-Leaflet и др.) и скрипты сборки проекта.
+/client/public/ - Cтатические файлы и базовый HTML-шаблон (точка монтирования React).
+/client/src/index.js - Точка входа React-приложения, подключение Redux Store и т.д.
+/client/src/App.js - Основной компонент-оболочка, описывает маршрутизацию (react-router-dom).
+/client/src/components/ - Переиспользуемые UI-компоненты (ProductModal, ZoneBlock, карточки и т.п.).
+/client/src/pages/ - Страницы (Home, About, Cart, Payment, Offer, Success, Zone, NotFound).
+/client/src/redux/ - Хранилище Redux: инициализация store (store.js) и модульные слайсы логики.
+/client/src/scss/ & scssCart/ - SCSS стили клиентской части.
+
+[ БЭКЕНД (Server) - NestJS ]
+/server/nest-back-cafe/package.json - Зависимости бэкенда (NestJS, TypeORM, pg, YooCheckout, telegram-bot-api).
+/server/nest-back-cafe/src/main.ts - Точка входа, запуск сервера (обычно порт 3000).
+/server/nest-back-cafe/src/app.module.ts - Главный модуль, объединяющий подмодули и базу.
+/server/nest-back-cafe/src/dishes/ - Модуль "Блюда" (Контроллеры, Сервис, TypeORM Entity для меню).
+/server/nest-back-cafe/src/orders/ - Модуль "Заказы" (Создание заказов и сохранение в БД).
+/server/nest-back-cafe/src/payments/ - Модуль "Оплата" (Интеграция с ЮKassa / YooCheckout).
+/server/nest-back-cafe/src/telegram_bot/ - Интеграция с Telegram: отправка уведомлений о заказах.
+/server/nest-back-cafe/BD_PHOTO/ - Папка с фотографиями продукции (скорее всего, раздаётся статикой через Nest).
+/server/nest-back-cafe/doner_cafe.dump - Копия дампа БД непосредственно в папке бэкенда.
+
+[ БАЗА ДАННЫХ И КОНФИГИ ]
+/dumpBD/backup_doner.dump - Актуальный дамп базы данных для разворачивания (PostgreSQL).
+/env/doc_2026-02-12_17-25-33.env - Содержит пароли и ключи для Production. Включает:
+  -> Данные БД: DB_HOST, DB_USER, DB_PASS, DB_NAME
+  -> Хост и домены: IP_SERVER, FRONTEND_URL, BACKEND_URL
+  -> Токены: YooKassa (SHOP_ID, API_KEY_PAYMENT), Telegram (TG_CHAT_ID, TG_BOT_TOKEN).
