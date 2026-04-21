@@ -23,7 +23,7 @@ services:
     environment:
       # Важно: В Докере контейнеры общаются друг с другом по именам сервисов.
       # То есть база данных доступна не по localhost, а по hostname 'db'
-      DB_HOST: db   
+      DB_HOST: db
     depends_on:
       - db
     restart: always
@@ -33,7 +33,7 @@ services:
       context: ./client
     container_name: doner_frontend
     ports:
-      - "80:80"
+      - '8080:80'
       #- "443:443" # Раскомментировать, когда настроите SSL сертификаты
     volumes:
       # Подставляем наш файл конфигурации nginx
