@@ -1,0 +1,103 @@
+.authPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: 60vh;
+}
+
+.authContainer {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+
+    .authTitle {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #2b2b2b;
+    }
+
+    .authField {
+        text-align: left;
+        margin-bottom: 20px;
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #777;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.2s ease;
+
+            &:focus {
+                border-color: #fe5f1e;
+                outline: none;
+            }
+
+            &.error {
+                border-color: #ff4d4d;
+            }
+        }
+
+        .errorMessage {
+            color: #ff4d4d;
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+    }
+
+    .authSubmit {
+        width: 100%;
+        background: #fe5f1e;
+        color: #fff;
+        padding: 14px;
+        border: none;
+        border-radius: 15px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 10px;
+
+        &:hover {
+            background: #e2561a;
+            transform: translateY(-2px);
+        }
+
+        &:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+    }
+
+    .authFooter {
+        margin-top: 25px;
+        font-size: 14px;
+        color: #777;
+
+        a {
+            color: #fe5f1e;
+            text-decoration: none;
+            font-weight: 600;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

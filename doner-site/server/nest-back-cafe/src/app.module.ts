@@ -11,22 +11,25 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { TelegramModule } from './telegram_bot/telegram.module';
 import { PaymentModule } from './payments/payment.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './users/users.entity';
 
 
 console.log('STATIC PATH:', join(__dirname, '..', 'uploads'));
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true}), //Модкль для использований переменных окружения isGlobal - отвечает за то что модуль доступен всему приложению
+    ConfigModule.forRoot({ isGlobal: true }), //Модкль для использований переменных окружения isGlobal - отвечает за то что модуль доступен всему приложению
     TypeOrmModule.forRoot({
-    
+
       type: 'postgres',
       host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT || '5432'), //Нужно пофиксить проверко что все перменные окружения заданы
       username: process.env.DB_USER,
       password: process.env.DB_PASS || '',
       database: process.env.DB_NAME,
-      entities: [Dish, Order],
-      synchronize: false, //todo: Во время продакшена нужно отключить 
+      entities: [Dish, Order, User],
+      synchronize: true, //todo: Во время продакшена нужно отключить 
 
     }),
     ServeStaticModule.forRoot({
@@ -36,10 +39,12 @@ console.log('STATIC PATH:', join(__dirname, '..', 'uploads'));
     DishesModule,
     OrdersModule,
     TelegramModule,
-    PaymentModule
+    PaymentModule,
+    UsersModule,
+    AuthModule,
   ],
-  
+
 })
 export class AppModule {
-  
+
 }

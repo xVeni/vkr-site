@@ -7,6 +7,14 @@ import reportWebVitals from './reportWebVitals';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 
+import axios from 'axios';
+
+axios.defaults.baseURL = ''; // Можно оставить пустым, если используется прокси
+axios.interceptors.request.use((config) => {
+  config.headers.Authorization = window.localStorage.getItem('token');
+  return config;
+});
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter basename="/">

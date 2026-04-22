@@ -1,9 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
+import { User } from '../users/users.entity';
 
 @Entity('orders')
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToOne(() => User, (user) => user.orders, { nullable: true })
+  user: User;
 
   @Column()
   type: string; // delivery | pickup
@@ -44,27 +48,27 @@ export class Order {
   @Column({ default: 'new' })
   status: string;
 
-    @Column({ default: 'В ожидании' })
+  @Column({ default: 'В ожидании' })
   status_tgBot: string; // pending | completed
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   deliveryPrice: string;
 
-  
-  @Column({ nullable: true })
-  payment_id:string;
 
   @Column({ nullable: true })
-  payment_url:string;
+  payment_id: string;
+
+  @Column({ nullable: true })
+  payment_url: string;
 
   @CreateDateColumn()
   created_at: Date;
 
-   @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: false })
   is_paid: boolean;
 
   @Column({ type: 'bigint', nullable: true })
-telegram_message_id: string | null;
+  telegram_message_id: string | null;
 
 
 }

@@ -3,6 +3,7 @@ import filter from './slices/filterSlice';
 import cart from './slices/cartSlice';
 import dish from './slices/dishesSlice';
 import checkout from './slices/checkoutSlice';
+import auth from './slices/authSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     cart,
     dish,
     checkout,
+    auth,
   },
 });

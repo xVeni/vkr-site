@@ -10,16 +10,16 @@ export class OrdersService {
     @InjectRepository(Order)
     private ordersRepo: Repository<Order>,
 
-    private readonly telegramService: TelegramService, 
-  ) {}
+    private readonly telegramService: TelegramService,
+  ) { }
 
-// Создать новый заказ
-async createOrder(orderData: Partial<Order>): Promise<Order> {
-  const order = this.ordersRepo.create(orderData);
-  const savedOrder = await this.ordersRepo.save(order);
-  await this.telegramService.sendOrderToTelegram(savedOrder);
-  return savedOrder;
-}
+  // Создать новый заказ
+  async createOrder(orderData: Partial<Order>): Promise<Order> {
+    const order = this.ordersRepo.create(orderData);
+    const savedOrder = await this.ordersRepo.save(order);
+    await this.telegramService.sendOrderToTelegram(savedOrder);
+    return savedOrder;
+  }
 
   // Получить все заказы
   getAll(): Promise<Order[]> {
@@ -35,33 +35,38 @@ async createOrder(orderData: Partial<Order>): Promise<Order> {
 
   // Обновить статус заказа
   updateStatus(id: number, status: string): Promise<void> {
-    return this.ordersRepo.update(id, { status }).then(() => {});
+    return this.ordersRepo.update(id, { status }).then(() => { });
   }
 
-async updateTelegramStatus(id: number, status: string) {
-  await this.ordersRepo.update(id, { status_tgBot: status });
-}
-
-async findOne(id: number): Promise<Order> {
-  const order = await this.ordersRepo.findOneBy({ id });
-  if (!order) {
-    throw new Error(`Order with ID ${id} not found`);
+  async updateTelegramStatus(id: number, status: string) {
+    await this.ordersRepo.update(id, { status_tgBot: status });
   }
-  return order;
-}
 
-async updateTelegramMessageId(id: number, messageId: string): Promise<void> {
-  await this.ordersRepo.update(id, { telegram_message_id: messageId });
-}
+  async findOne(id: number): Promise<Order> {
+    const order = await this.ordersRepo.findOneBy({ id });
+    if (!order) {
+      throw new Error(`Order with ID ${id} not found`);
+    }
+    return order;
+  }
 
-// В OrdersService
-async updateAfterPayment(id: number): Promise<void> {
-  await this.ordersRepo.update(id, {
-    is_paid: true,
-    status: 'paid',
-    status_tgBot: 'оплачено',
-  });
-}
+  async updateTelegramMessageId(id: number, messageId: string): Promise<void> {
+    await this.ordersRepo.update(id, { telegram_message_id: messageId });
+  }
 
- 
+  // В OrdersService
+  async updateAfterPayment(id: number): Promise<void> {
+    await this.ordersRepo.update(id, {
+      is_paid: true,
+      status: 'paid',
+      status_tgBot: 'оплачено',
+    });
+  }
+
+  async getOrdersByUser(userId: number): Promise<Order[]> {
+    return this.ordersRepo.find({
+      where: { user: { id: userId } },
+      order: { created_at: 'DESC' },
+    });
+  }
 }

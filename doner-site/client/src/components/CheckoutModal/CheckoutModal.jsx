@@ -33,8 +33,17 @@ const CheckoutPage = () => {
   } = useSelector((state) => state.checkout);
 
   const dispatch = useDispatch();
-  // В начале компонента
+  const userData = useSelector((state) => state.auth.data);
   const [errors, setErrors] = useState({});
+
+  // Автозаполнение при входе/наличии данных пользователя
+  useEffect(() => {
+    if (userData) {
+      if (!customerName) dispatch(setField({ field: 'customerName', value: userData.name || '' }));
+      if (!phone) dispatch(setField({ field: 'phone', value: userData.phone || '' }));
+      if (!email) dispatch(setField({ field: 'email', value: userData.email || '' }));
+    }
+  }, [userData, dispatch]);
 
   const fieldRefs = {
     customerName: useRef(null),
@@ -208,6 +217,7 @@ const CheckoutPage = () => {
       email,
       deliveryPrice,
       payment_id: null,
+      user: userData ? { id: userData.id } : null,
     };
 
     try {
