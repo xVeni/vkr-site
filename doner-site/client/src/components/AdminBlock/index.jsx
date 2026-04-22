@@ -10,6 +10,12 @@ import styles from './AdminBlock.module.scss';
 
 const AdminBlock = () => {
     const userData = useSelector((state) => state.auth.data);
+    const authStatus = useSelector((state) => state.auth.status);
+
+    // Если данные загружаются, ничего не делаем (или показываем спиннер)
+    if (authStatus === 'loading') {
+        return null;
+    }
 
     // Защита на фронтенде: только админ
     if (!userData || userData.role !== 'admin') {

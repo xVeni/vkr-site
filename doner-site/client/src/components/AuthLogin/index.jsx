@@ -32,8 +32,10 @@ const AuthLogin = () => {
         }
     };
 
-    if (isAuth) {
-        return <Navigate to="/cabinet" />;
+    const userData = useSelector((state) => state.auth.data);
+
+    if (isAuth && userData) {
+        return <Navigate to={userData.role === 'admin' ? '/admin' : '/cabinet'} />;
     }
 
     return (
