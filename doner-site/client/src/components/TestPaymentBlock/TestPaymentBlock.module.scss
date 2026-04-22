@@ -1,0 +1,112 @@
+.testPaymentPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+    background: #fdfdfd;
+    padding: 20px;
+
+    .paymentCard {
+        background: #fff;
+        padding: 40px;
+        border-radius: 30px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        max-width: 450px;
+        width: 100%;
+        text-align: center;
+        border: 1px solid #f0f0f0;
+
+        .iconWrapper {
+            width: 80px;
+            height: 80px;
+            background: #fe5f1e11;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 25px;
+
+            .cardIcon {
+                font-size: 36px;
+                color: #fe5f1e;
+            }
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #2b2b2b;
+        }
+
+        .orderInfo {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fe5f1e;
+            margin-bottom: 25px;
+        }
+
+        .divider {
+            height: 2px;
+            background: #f9f9f9;
+            margin-bottom: 25px;
+        }
+
+        .infoText {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #fe5f1e;
+            background: #fff9e6;
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .description {
+            color: #777;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .payBtn {
+            width: 100%;
+            padding: 18px;
+            background: #fe5f1e;
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(254, 95, 30, 0.2);
+
+            &:hover {
+                background: #e5531b;
+                transform: translateY(-3px);
+                box-shadow: 0 15px 25px rgba(254, 95, 30, 0.3);
+            }
+        }
+
+        .btnLoading {
+            @extend .payBtn;
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+
+            &:hover {
+                transform: none;
+                background: #ccc;
+            }
+        }
+    }
+}

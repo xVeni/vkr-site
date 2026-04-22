@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, Res, Logger } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, Logger, Param } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { PaymentService } from './payment.service';
 
@@ -6,7 +6,7 @@ import { PaymentService } from './payment.service';
 export class PaymentController {
   private readonly logger = new Logger(PaymentController.name);
 
- constructor(private readonly paymentService: PaymentService) {}
+  constructor(private readonly paymentService: PaymentService) { }
 
   @Post('webhook')
   async handleWebhook(@Req() req: Request, @Res() res: Response) {
@@ -27,5 +27,12 @@ export class PaymentController {
     }
 
     return res.status(200).send('ok');
+  }
+
+  @Post('simulate/:id')
+  async simulatePayment(@Param('id') id: string) {
+    this.logger.log(`[SIMULATION] Запрос на имитацию оплаты заказа #${id}`);
+    await this.paymentService.handleSimulation(Number(id));
+    return { success: true };
   }
 }

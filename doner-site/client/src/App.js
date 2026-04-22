@@ -14,6 +14,7 @@ import Success from './pages/Success';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cabinet from './pages/Cabinet';
+import TestPayment from './pages/TestPayment';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchAuthMe } from './redux/slices/authSlice';
@@ -45,6 +46,7 @@ function App() {
           <Route path="/success/:id" element={<Success />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/test-payment/:id" element={<TestPayment />} />
           <Route path="/cabinet" element={<Cabinet />} />
         </Routes>
         <Footer />

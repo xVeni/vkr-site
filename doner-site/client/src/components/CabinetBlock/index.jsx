@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
+import { FiUser, FiMail, FiPhone, FiShoppingBag, FiLogOut, FiPackage } from 'react-icons/fi';
 import { logout, selectIsAuth } from '../../redux/slices/authSlice';
 import styles from './CabinetBlock.module.scss';
 
@@ -48,29 +49,29 @@ const CabinetBlock = () => {
                 <div className={styles.cabinetHeader}>
                     <h1>Личный кабинет</h1>
                     <button onClick={onClickLogout} className={styles.logoutBtn}>
-                        Выйти
+                        <FiLogOut /> Выйти
                     </button>
                 </div>
 
                 <div className={styles.cabinetContent}>
                     <div className={`${styles.profileInfo} ${styles.card}`}>
-                        <h2>Профиль</h2>
+                        <h2><FiUser /> Профиль</h2>
                         <div className={styles.infoRow}>
-                            <span className={styles.label}>Имя:</span>
+                            <span className={styles.label}>Имя</span>
                             <span className={styles.value}>{userData.name || 'Не указано'}</span>
                         </div>
                         <div className={styles.infoRow}>
-                            <span className={styles.label}>Email:</span>
+                            <span className={styles.label}>Email</span>
                             <span className={styles.value}>{userData.email}</span>
                         </div>
                         <div className={styles.infoRow}>
-                            <span className={styles.label}>Телефон:</span>
+                            <span className={styles.label}>Телефон</span>
                             <span className={styles.value}>{userData.phone || 'Не указано'}</span>
                         </div>
                     </div>
 
                     <div className={`${styles.ordersHistory} ${styles.card}`}>
-                        <h2>История заказов</h2>
+                        <h2><FiShoppingBag /> История заказов</h2>
                         {loading ? (
                             <p>Загрузка истории...</p>
                         ) : orders.length > 0 ? (
@@ -80,7 +81,11 @@ const CabinetBlock = () => {
                                         <div className={styles.orderMain}>
                                             <span className={styles.orderId}>Заказ №{order.id}</span>
                                             <span className={styles.orderDate}>
-                                                {new Date(order.created_at).toLocaleDateString()}
+                                                {new Date(order.created_at).toLocaleDateString('ru-RU', {
+                                                    day: 'numeric',
+                                                    month: 'long',
+                                                    year: 'numeric'
+                                                })}
                                             </span>
                                         </div>
                                         <div className={styles.orderDetails}>
@@ -94,13 +99,21 @@ const CabinetBlock = () => {
                                             <span className={styles.orderTotal}>{order.total} ₽</span>
                                         </div>
                                         <div className={styles.orderStatus}>
-                                            Статус: <span className={`${styles.status} ${styles[order.status]}`}>{order.status}</span>
+                                            <span>Статус заказа:</span>
+                                            <span className={`${styles.status} ${styles[order.status] || ''}`}>
+                                                {order.status === 'paid' ? 'Оплачен' :
+                                                    order.status === 'pending' ? 'Ожидает оплаты' :
+                                                        order.status === 'canceled' ? 'Отменен' : order.status}
+                                            </span>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <p className={styles.noOrders}>У вас пока нет заказов</p>
+                            <div className={styles.noOrders}>
+                                <FiPackage className={styles.noOrdersIcon} />
+                                <p>У вас пока нет заказов</p>
+                            </div>
                         )}
                     </div>
                 </div>

@@ -65,6 +65,13 @@ export class OrdersController {
     return this.ordersService.getAll();
   }
 
+  // Получить заказы текущего пользователя
+  @UseGuards(JwtAuthGuard)
+  @Get('my')
+  async getMyOrders(@Request() req): Promise<Order[]> {
+    return this.ordersService.getOrdersByUser(req.user.id);
+  }
+
   // Обновить статус заказа
   @Patch(':id/status')
   updateStatus(

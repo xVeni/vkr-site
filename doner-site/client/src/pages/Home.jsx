@@ -126,10 +126,20 @@ export const Home = () => {
 
   // Определяем, какие товары показывать
   const displayedItems = React.useMemo(() => {
-    let filtered = [];
+    let filtered = items;
+
+    // Если есть поиск, мы НЕ фильтруем по категории на фронте, 
+    // так как сервер уже выдал нам нужные результаты для категории 1 (Все) + поиск
+    if (searchValue) {
+      return sortBestSellers(filtered); // Можно использовать общую сортировку или специфичную
+    }
 
     if (categoryId === 0) {
       filtered = items.filter((item) => item.best_sell === 1);
+      return sortBestSellers(filtered);
+    }
+
+    if (categoryId === 1) {
       return sortBestSellers(filtered);
     }
 
@@ -148,7 +158,7 @@ export const Home = () => {
       default:
         return filtered;
     }
-  }, [items, categoryId]);
+  }, [items, categoryId, searchValue]);
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));

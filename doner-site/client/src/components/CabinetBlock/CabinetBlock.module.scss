@@ -1,30 +1,59 @@
 .cabinetPage {
-    padding: 40px 0;
-    min-height: 70vh;
+    padding: 60px 0;
+    min-height: 80vh;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 30px; // Padding to avoid "gluing to walls"
+
+        @media (max-width: 480px) {
+            padding: 0 15px;
+        }
+    }
 
     .cabinetHeader {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 40px;
+        margin-bottom: 50px;
+        animation: fadeInDown 0.6s ease-out;
 
         h1 {
-            font-size: 32px;
-            font-weight: 800;
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #2b2b2b, #fe5f1e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
 
         .logoutBtn {
-            padding: 10px 20px;
-            background: #f3f3f3;
-            border-radius: 10px;
-            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 14px;
+            font-weight: 700;
             cursor: pointer;
-            border: 1px solid #ddd;
-            transition: all 0.2s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #555;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+
+            svg {
+                font-size: 20px;
+            }
 
             &:hover {
                 background: #ff4d4d;
                 color: #fff;
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(255, 77, 77, 0.2);
                 border-color: #ff4d4d;
             }
         }
@@ -32,116 +61,237 @@
 
     .cabinetContent {
         display: grid;
-        grid-template-columns: 1fr 2fr;
-        gap: 30px;
+        grid-template-columns: 350px 1fr;
+        gap: 40px;
+        animation: fadeInUp 0.8s ease-out;
 
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             grid-template-columns: 1fr;
         }
     }
 
     .card {
-        background: #fff;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 32px;
+        padding: 40px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
 
         h2 {
-            margin-bottom: 25px;
-            font-size: 22px;
-            border-bottom: 2px solid #f6f6f6;
-            padding-bottom: 10px;
+            margin-bottom: 35px;
+            font-size: 26px;
+            font-weight: 800;
+            color: #232323;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            svg {
+                color: #fe5f1e;
+            }
+
+            &::after {
+                content: '';
+                flex: 1;
+                height: 2px;
+                background: linear-gradient(90deg, #f6f6f6, transparent);
+                margin-left: 15px;
+            }
         }
     }
 
-    .infoRow {
-        margin-bottom: 15px;
-        display: flex;
-        justify-content: space-between;
+    .profileInfo {
+        .infoRow {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
 
-        .label {
-            color: #777;
-            font-weight: 600;
-        }
+            &:last-child {
+                border-bottom: none;
+            }
 
-        .value {
-            font-weight: 700;
-            color: #2b2b2b;
+            .label {
+                color: #999;
+                font-weight: 600;
+                font-size: 14px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .value {
+                font-weight: 700;
+                color: #2b2b2b;
+                font-size: 18px;
+            }
         }
     }
 
     .orderItem {
-        border: 1px solid #f0f0f0;
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 15px;
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        border-radius: 24px;
+        padding: 25px;
+        margin-bottom: 25px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-color: #fe5f1e33;
+        }
 
         .orderMain {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            align-items: center;
+            margin-bottom: 20px;
 
             .orderId {
-                font-weight: 800;
-                font-size: 18px;
-                color: #fe5f1e;
+                font-weight: 900;
+                font-size: 20px;
+                color: #2b2b2b;
             }
 
             .orderDate {
-                color: #999;
+                color: #aaa;
                 font-size: 14px;
+                font-weight: 500;
             }
         }
 
         .orderDetails {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            align-items: flex-end;
+            margin-bottom: 20px;
 
             .orderItems {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 5px;
+                gap: 8px;
+                max-width: 80%;
             }
 
             .orderTotal {
-                font-weight: 800;
-                font-size: 18px;
+                font-weight: 900;
+                font-size: 24px;
+                color: #fe5f1e;
             }
         }
 
         .tag {
-            background: #f9f9f9;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            color: #555;
+            background: rgba(254, 95, 30, 0.08);
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fe5f1e;
         }
 
         .orderStatus {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 14px;
+            font-weight: 600;
             color: #777;
 
             .status {
-                font-weight: 700;
-                color: #fe5f1e;
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-weight: 800;
                 text-transform: uppercase;
-                font-size: 12px;
+                font-size: 11px;
+                letter-spacing: 0.5px;
+
+                &.paid {
+                    background: #e6f9f0;
+                    color: #00b894;
+                }
+
+                &.pending {
+                    background: #fff9e6;
+                    color: #f1c40f;
+                }
+
+                &.canceled {
+                    background: #ffebee;
+                    color: #d63031;
+                }
             }
         }
     }
 
     .noOrders {
         text-align: center;
-        color: #999;
-        padding: 20px;
+        padding: 50px 20px;
+
+        .noOrdersIcon {
+            font-size: 60px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #999;
+            font-size: 18px;
+            font-weight: 600;
+        }
     }
 }
 
 .cabinetLoading {
     text-align: center;
-    padding: 100px 0;
-    font-size: 20px;
-    font-weight: 600;
+    padding: 150px 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fe5f1e;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
 }
