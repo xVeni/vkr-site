@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Order } from './orders.entity';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order)
     private ordersRepo: Repository<Order>,
+    private mailService: MailService,
   ) { }
 
   // Создать новый заказ
@@ -54,6 +56,18 @@ export class OrdersService {
       is_paid: true,
       status: 'paid',
     });
+
+    // После оплаты отправляем уведомление на почту
+    try {
+      const order = await this.ordersRepo.findOne({
+        where: { id },
+      });
+      if (order) {
+        await this.mailService.sendOrderNotification(order);
+      }
+    } catch (e) {
+      console.error('Не удалось отправить уведомление о платеже:', e);
+    }
   }
 
   async getOrdersByUser(userId: number): Promise<Order[]> {

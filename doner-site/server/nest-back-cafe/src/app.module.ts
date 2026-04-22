@@ -16,6 +16,7 @@ import { AuthModule } from './auth/auth.module';
 import { SettingsModule } from './settings/settings.module';
 import { Settings } from './settings/settings.entity';
 import { User } from './users/users.entity';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { User } from './users/users.entity';
     UsersModule,
     AuthModule,
     SettingsModule,
+    MailModule,
   ],
   controllers: [AppController, AdminController],
   providers: [AppService],
