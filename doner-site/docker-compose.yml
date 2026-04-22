@@ -20,7 +20,7 @@ services:
     env_file:
       - ./server/nest-back-cafe/.env
     environment:
-      DB_HOST: db
+      DB_HOST: doner_db
     depends_on:
       - db
     restart: always
