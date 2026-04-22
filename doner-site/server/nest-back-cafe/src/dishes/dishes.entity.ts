@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity('dishes')
 export class Dish {
     @PrimaryGeneratedColumn()
-    id:number;
+    id: number;
 
     @Column()
     image: string;
@@ -14,7 +14,7 @@ export class Dish {
     @Column()
     weight: number;
 
-    @Column({nullable : true})
+    @Column({ nullable: true })
     desc: string;
 
     @Column('integer', {})
@@ -25,5 +25,14 @@ export class Dish {
 
     @Column()
     best_sell: number;
+
+    @Column({ type: 'decimal', nullable: true })
+    discountPrice: number;
+
+    @Column({ type: 'timestamp', nullable: true })
+    discountUntil: Date;
+
+    @Column({ default: false })
+    isSeasonal: boolean;
 }
 

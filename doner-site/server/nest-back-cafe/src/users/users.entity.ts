@@ -23,4 +23,7 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
+
+  @Column({ default: 'user' })
+  role: string;
 }

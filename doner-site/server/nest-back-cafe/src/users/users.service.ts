@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './users.entity';
@@ -6,11 +6,31 @@ import { RegisterDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
     constructor(
         @InjectRepository(User)
         private usersRepository: Repository<User>,
     ) { }
+
+    async onModuleInit() {
+        await this.seedAdmin();
+    }
+
+    async seedAdmin() {
+        const adminEmail = 'admin'; // Пользователь просил логин admin
+        const adminUser = await this.findByEmail(adminEmail);
+        if (!adminUser) {
+            const hashedPassword = await bcrypt.hash('admin1', 10);
+            const admin = this.usersRepository.create({
+                email: adminEmail,
+                password: hashedPassword,
+                name: 'Administrator',
+                role: 'admin',
+            });
+            await this.usersRepository.save(admin);
+            console.log('Admin user seeded successfully');
+        }
+    }
 
     async create(registerDto: RegisterDto): Promise<User> {
         const { email, password, name, phone, address } = registerDto;

@@ -1,0 +1,112 @@
+.root {
+    padding: 30px;
+    background: #f4f7f6;
+    min-height: 100vh;
+    width: 100%;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+
+        h1 {
+            font-family: 'Arial Black', sans-serif;
+            color: #333;
+            margin: 0;
+        }
+
+        .select {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            outline: none;
+            cursor: pointer;
+
+            &:focus {
+                border-color: #5e652b;
+            }
+        }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+
+            &:hover {
+                transform: translateY(-5px);
+            }
+
+            .cardTitle {
+                color: #888;
+                font-size: 14px;
+                text-transform: uppercase;
+                font-weight: 700;
+                margin-bottom: 10px;
+            }
+
+            .cardValue {
+                font-size: 32px;
+                font-weight: 900;
+                color: #5e652b;
+                font-family: 'Arial Black', sans-serif;
+            }
+        }
+    }
+
+    .secondaryHeader {
+        margin-top: 50px;
+        margin-bottom: 20px;
+
+        h2 {
+            font-family: 'Arial Black', sans-serif;
+            color: #444;
+        }
+    }
+
+    .detailGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+
+        .detailCard {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+            h3 {
+                margin-top: 0;
+                color: #666;
+                font-size: 16px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 10px;
+            }
+
+            .statRow {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px 0;
+                border-bottom: 1px solid #f9f9f9;
+
+                span {
+                    text-transform: capitalize;
+                    color: #777;
+                }
+
+                b {
+                    color: #333;
+                }
+            }
+        }
+    }
+}

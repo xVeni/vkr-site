@@ -13,7 +13,7 @@ export class AuthService {
 
     async register(registerDto: RegisterDto) {
         const user = await this.usersService.create(registerDto);
-        const payload = { email: user.email, sub: user.id };
+        const payload = { email: user.email, sub: user.id, role: user.role };
         return {
             access_token: this.jwtService.sign(payload),
             user: {
@@ -22,6 +22,7 @@ export class AuthService {
                 name: user.name,
                 phone: user.phone,
                 address: user.address,
+                role: user.role,
             },
         };
     }
@@ -37,7 +38,7 @@ export class AuthService {
             throw new UnauthorizedException('Неверный email или пароль');
         }
 
-        const payload = { email: user.email, sub: user.id };
+        const payload = { email: user.email, sub: user.id, role: user.role };
         return {
             access_token: this.jwtService.sign(payload),
             user: {
@@ -46,6 +47,7 @@ export class AuthService {
                 name: user.name,
                 phone: user.phone,
                 address: user.address,
+                role: user.role,
             },
         };
     }

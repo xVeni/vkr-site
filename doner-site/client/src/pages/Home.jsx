@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Bestsellers from '../components/itemBlockall';
 import Skeleton from '../components/itemBlockall/Skeleton';
 import Sale from '../components/Hero/sale';
@@ -124,18 +125,37 @@ export const Home = () => {
     });
   };
 
+  const [settings, setSettings] = React.useState(null);
+
+  React.useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data } = await axios.get('/api/settings');
+        setSettings(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchSettings();
+  }, []);
+
   // Определяем, какие товары показывать
   const displayedItems = React.useMemo(() => {
     let filtered = items;
 
+    // Фильтруем сезонные блюда, если они отключены
+    if (settings && !settings.isSeasonalMenuEnabled) {
+      filtered = filtered.filter(item => !item.isSeasonal);
+    }
+
     // Если есть поиск, мы НЕ фильтруем по категории на фронте, 
     // так как сервер уже выдал нам нужные результаты для категории 1 (Все) + поиск
     if (searchValue) {
-      return sortBestSellers(filtered); // Можно использовать общую сортировку или специфичную
+      return sortBestSellers(filtered);
     }
 
     if (categoryId === 0) {
-      filtered = items.filter((item) => item.best_sell === 1);
+      filtered = filtered.filter((item) => item.best_sell === 1);
       return sortBestSellers(filtered);
     }
 
@@ -143,7 +163,7 @@ export const Home = () => {
       return sortBestSellers(filtered);
     }
 
-    filtered = items.filter((item) => item.category === categoryId);
+    filtered = filtered.filter((item) => item.category === categoryId);
 
     switch (categoryId) {
       case 2:
@@ -158,7 +178,7 @@ export const Home = () => {
       default:
         return filtered;
     }
-  }, [items, categoryId, searchValue]);
+  }, [items, categoryId, searchValue, settings]);
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));

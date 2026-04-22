@@ -1,0 +1,68 @@
+.root {
+    padding: 30px;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+
+        h1 {
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .orderCard {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+
+        .orderHeader {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+
+            h3 {
+                margin: 0;
+            }
+        }
+
+        .statusSelect {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-weight: 600;
+        }
+
+        .orderInfo {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+
+            p {
+                margin: 5px 0;
+                color: #555;
+            }
+        }
+
+        .items {
+            .item {
+                font-size: 14px;
+                color: #777;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}

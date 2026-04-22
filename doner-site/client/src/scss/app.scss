@@ -261,6 +261,7 @@ h3 {
   }
 
   .product-card {
+    position: relative;
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 20px;
@@ -274,6 +275,20 @@ h3 {
     &:hover {
       transform: translateY(-1px);
       box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .discount-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ff6b6b;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+      z-index: 2;
     }
 
     .product-img {
@@ -335,10 +350,23 @@ h3 {
       margin-top: auto;
     }
 
+    .price-container {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
     .price {
       font-weight: 900;
       font-size: 18px;
       color: #000;
+    }
+
+    .old-price {
+      font-size: 14px;
+      color: #aaa;
+      text-decoration: line-through;
+      font-weight: 600;
     }
 
     .btn {
@@ -485,18 +513,22 @@ h3 {
   .header {
     padding: 20px 5%;
   }
+
   .hero {
     padding: 30px 5%;
     gap: 15px;
   }
+
   .categories {
     padding: 15px 5%;
     gap: 15px;
   }
+
   .bestsellers {
     padding: 30px 5%;
     gap: 20px;
   }
+
   .footer {
     padding: 30px 5%;
   }
@@ -506,9 +538,11 @@ h3 {
   .header {
     flex-direction: column;
     gap: 15px;
+
     .search-cart {
       width: 100%;
       justify-content: space-between;
+
       input {
         flex: 1;
       }
@@ -519,17 +553,21 @@ h3 {
     flex-direction: column;
     padding: 20px 5%;
   }
+
   .categories {
     flex-direction: column;
     padding: 15px 5%;
     gap: 10px;
   }
+
   .bestsellers {
     padding: 20px 5%;
   }
+
   .product-card {
     flex: 1 1 100%;
   }
+
   .footer-top {
     flex-direction: column;
     gap: 15px;
