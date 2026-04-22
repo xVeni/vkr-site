@@ -1,13 +1,17 @@
 import React from 'react';
 
-function Categories({ value, onClickCategory }) {
+function Categories({ value, onClickCategory, settings }) {
   const categories = [
     { id: 0, name: 'Хиты продаж' },
     { id: 2, name: 'Шаурма/Кебаб' },
     { id: 3, name: 'Бртуч/Бургер/Ролл' },
-    { id: 5, name: 'Стрит' }, // ← поменяли местами
-    { id: 4, name: 'Напитки' }, // ← поменяли местами
+    { id: 5, name: 'Стрит' },
+    { id: 4, name: 'Напитки' },
   ];
+
+  if (settings && settings.isSeasonalMenuEnabled) {
+    categories.push({ id: 6, name: 'Сезонное меню' });
+  }
 
   return (
     <div className="categories">

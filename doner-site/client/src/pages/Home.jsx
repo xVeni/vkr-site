@@ -175,6 +175,9 @@ export const Home = () => {
       case 5:
         return sortStreet(filtered);
 
+      case 6:
+        return filtered.filter(item => item.isSeasonal);
+
       default:
         return filtered;
     }
@@ -203,7 +206,7 @@ export const Home = () => {
   return (
     <>
       <Sale />
-      <Categories value={categoryId} onClickCategory={onClickCategory} />
+      <Categories value={categoryId} onClickCategory={onClickCategory} settings={settings} />
 
       <div className="bestsellers">
         <div className="product-grid">

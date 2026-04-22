@@ -14,8 +14,8 @@ const AdminDishes = () => {
         desc: '',
         image: '',
         discountPrice: '',
-        discountUntil: '',
         isSeasonal: false,
+        best_sell: 0,
     });
 
     useEffect(() => {
@@ -120,13 +120,18 @@ const AdminDishes = () => {
 
                             <div style={{ display: 'flex', gap: '10px' }}>
                                 <input type="number" placeholder="Цена со скидкой" value={formData.discountPrice} onChange={e => setFormData({ ...formData, discountPrice: e.target.value })} />
-                                <input type="datetime-local" value={formData.discountUntil ? new Date(formData.discountUntil).toISOString().slice(0, 16) : ''} onChange={e => setFormData({ ...formData, discountUntil: e.target.value })} />
                             </div>
 
-                            <label style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <input type="checkbox" checked={formData.isSeasonal} onChange={e => setFormData({ ...formData, isSeasonal: e.target.checked })} />
-                                Сезонное блюдо
-                            </label>
+                            <div style={{ display: 'flex', gap: '20px', margin: '15px 0' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <input type="checkbox" checked={formData.isSeasonal} onChange={e => setFormData({ ...formData, isSeasonal: e.target.checked })} />
+                                    Сезонное
+                                </label>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <input type="checkbox" checked={formData.best_sell === 1} onChange={e => setFormData({ ...formData, best_sell: e.target.checked ? 1 : 0 })} />
+                                    Хит продаж
+                                </label>
+                            </div>
 
                             <label>Фото блюда</label>
                             <input type="file" onChange={handleImageUpload} />

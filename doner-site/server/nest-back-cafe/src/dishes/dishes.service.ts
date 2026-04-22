@@ -8,7 +8,7 @@ export class DishesService {
   constructor(
     @InjectRepository(Dish)
     private dishRepo: Repository<Dish>,
-  ) {}
+  ) { }
 
   private addFullImageUrl(dishes: Dish[] | Dish): any {
     const serverIP = process.env.IP_SERVER || 'localhost:5000';
@@ -42,11 +42,35 @@ export class DishesService {
       where.title = ILike(`%${search}%`);
     }
 
-    if (best_sell){
+    if (best_sell) {
       where.best_sell = 1
     }
 
     const dishes = await this.dishRepo.find({ where });
     return this.addFullImageUrl(dishes);
+  }
+
+  async findOne(id: number): Promise<Dish | null> {
+    const dish = await this.dishRepo.findOne({ where: { id } });
+    if (!dish) return null;
+    return this.addFullImageUrl(dish);
+  }
+
+  async create(data: Partial<Dish>): Promise<Dish> {
+    const dish = this.dishRepo.create(data);
+    return this.dishRepo.save(dish);
+  }
+
+  async update(id: number, data: Partial<Dish>): Promise<Dish> {
+    // Если пришел полный URL картинки, убираем префикс перед сохранением в БД
+    if (data.image && data.image.includes('/images/')) {
+      data.image = data.image.split('/images/').pop();
+    }
+    await this.dishRepo.update(id, data);
+    return this.findOne(id);
+  }
+
+  async remove(id: number): Promise<void> {
+    await this.dishRepo.delete(id);
   }
 }
