@@ -20,6 +20,8 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     @Get('me')
     getProfile(@Request() req) {
-        return req.user;
+        console.log('GET PROFILE USER:', req.user);
+        const { password, ...userData } = req.user;
+        return userData;
     }
 }

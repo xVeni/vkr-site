@@ -17,18 +17,22 @@ export class UsersService implements OnModuleInit {
     }
 
     async seedAdmin() {
-        const adminEmail = 'admin@admin.ru'; // Сменил на email-формат, чтобы проходила валидация
-        const adminUser = await this.findByEmail(adminEmail);
+        const adminEmail = 'admin@admin.ru';
+        let adminUser = await this.findByEmail(adminEmail);
         if (!adminUser) {
             const hashedPassword = await bcrypt.hash('admin1', 10);
-            const admin = this.usersRepository.create({
+            adminUser = this.usersRepository.create({
                 email: adminEmail,
                 password: hashedPassword,
                 name: 'Administrator',
                 role: 'admin',
             });
-            await this.usersRepository.save(admin);
+            await this.usersRepository.save(adminUser);
             console.log('Admin user seeded successfully with email: admin@admin.ru');
+        } else if (adminUser.role !== 'admin') {
+            adminUser.role = 'admin';
+            await this.usersRepository.save(adminUser);
+            console.log('Admin user role updated to admin');
         }
     }
 
