@@ -11,8 +11,9 @@ import axios from 'axios';
 
 axios.defaults.baseURL = ''; // Можно оставить пустым, если используется прокси
 axios.interceptors.request.use((config) => {
-  if (config.url && (config.url.startsWith('/api') || config.url.startsWith('http://localhost'))) {
-    config.headers.Authorization = window.localStorage.getItem('token');
+  const token = window.localStorage.getItem('token');
+  if (token && config.url && (config.url.startsWith('/api') || config.url.startsWith('http://localhost'))) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
