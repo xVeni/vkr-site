@@ -2,7 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { YooCheckout } from '@a2seven/yoo-checkout';
-import { v4 as uuidv4 } from 'uuid';
+import * as crypto from 'crypto';
 import { Order } from '../orders/orders.entity';
 import { TelegramService } from '../telegram_bot/telegram.service';
 
@@ -35,7 +35,7 @@ export class PaymentService implements OnModuleInit {
 
   async createPaymentForOrder(order: Order): Promise<{ paymentId: string; confirmationUrl: string }> {
     // ВМЕСТО ЮКАССЫ — РЕДИРЕКТ НА ТЕСТОВУЮ СТРАНИЦУ ОПЛАТЫ
-    const paymentId = uuidv4();
+    const paymentId = crypto.randomUUID();
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
     const confirmationUrl = `${frontendUrl}/test-payment/${order.id}`;
 

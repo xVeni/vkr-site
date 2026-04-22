@@ -3,8 +3,10 @@
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 200px);
-    background: #fdfdfd;
+    background-image: url('../../../../public/images/background1.png');
+    background-repeat: repeat;
     padding: 20px;
+    font-family: 'Manrope', sans-serif;
 
     .paymentCard {
         background: #fff;
@@ -19,7 +21,7 @@
         .iconWrapper {
             width: 80px;
             height: 80px;
-            background: #fe5f1e11;
+            background: rgba(94, 101, 43, 0.1);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -28,7 +30,7 @@
 
             .cardIcon {
                 font-size: 36px;
-                color: #fe5f1e;
+                color: #5e652b;
             }
         }
 
@@ -37,12 +39,13 @@
             font-weight: 800;
             margin-bottom: 10px;
             color: #2b2b2b;
+            font-family: 'Arial Black', sans-serif;
         }
 
         .orderInfo {
             font-size: 18px;
             font-weight: 700;
-            color: #fe5f1e;
+            color: #5e652b;
             margin-bottom: 25px;
         }
 
@@ -58,8 +61,8 @@
             justify-content: center;
             gap: 10px;
             font-size: 14px;
-            color: #fe5f1e;
-            background: #fff9e6;
+            color: #5e652b;
+            background: #f4f6e7;
             padding: 10px;
             border-radius: 12px;
             margin-bottom: 20px;
@@ -76,7 +79,7 @@
         .payBtn {
             width: 100%;
             padding: 18px;
-            background: #fe5f1e;
+            background: #5e652b;
             color: #fff;
             border: none;
             border-radius: 16px;
@@ -88,12 +91,12 @@
             justify-content: center;
             gap: 12px;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(254, 95, 30, 0.2);
+            box-shadow: 0 10px 20px rgba(94, 101, 43, 0.2);
 
             &:hover {
-                background: #e5531b;
+                background: darken(#5e652b, 5%);
                 transform: translateY(-3px);
-                box-shadow: 0 15px 25px rgba(254, 95, 30, 0.3);
+                box-shadow: 0 15px 25px rgba(94, 101, 43, 0.3);
             }
         }
 
