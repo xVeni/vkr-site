@@ -13,6 +13,8 @@ export class DishesService {
   private addFullImageUrl(dishes: Dish[] | Dish): any {
     const serverIP = process.env.IP_SERVER || 'localhost:5000';
 
+    if (!dishes) return null;
+
     if (Array.isArray(dishes)) {
       return dishes.map(d => ({
         ...d,
@@ -22,7 +24,7 @@ export class DishesService {
 
     return {
       ...dishes,
-      image: `http://${serverIP}/images/${dishes.image}`,
+      image: `http://${serverIP}/images/${(dishes as any).image}`,
     };
   }
 
