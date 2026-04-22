@@ -3,6 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { OrdersService } from './orders/orders.service';
+import { MailService } from './mail/mail.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RolesGuard } from './auth/roles.guard';
 import { Roles } from './auth/roles.decorator';
@@ -11,7 +12,26 @@ import { Roles } from './auth/roles.decorator';
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('admin')
 export class AdminController {
-    constructor(private readonly ordersService: OrdersService) { }
+    constructor(
+        private readonly ordersService: OrdersService,
+        private readonly mailService: MailService
+    ) { }
+
+    @Get('test-email')
+    async testEmail() {
+        return this.mailService.sendOrderNotification({
+            id: 999,
+            type: 'delivery',
+            customer_name: 'ТЕСТОВЫЙ КЛИЕНТ',
+            phone: '+79990000000',
+            address: 'Улица Тестовая, дом 1',
+            total: 1500,
+            items: [
+                { title: 'Тестовая Шаурма', quantity: 2, price: 500 },
+                { title: 'Тестовый Напиток', quantity: 1, price: 500 }
+            ]
+        });
+    }
 
     @Get('stats')
     async getStats(@Query('period') period: string = 'all') {
