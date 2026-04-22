@@ -11,7 +11,10 @@ export class DishesService {
   ) { }
 
   private addFullImageUrl(dishes: Dish[] | Dish): any {
-    const serverIP = process.env.IP_SERVER || 'localhost:5000';
+    let serverIP = process.env.IP_SERVER || 'localhost:5000';
+    if (serverIP.endsWith('/')) {
+      serverIP = serverIP.slice(0, -1);
+    }
 
     if (!dishes) return null;
 

@@ -22,7 +22,10 @@ export class SettingsService implements OnModuleInit {
     }
 
     async updateSettings(data: Partial<Settings>) {
-        const settings = await this.getSettings();
+        let settings = await this.getSettings();
+        if (!settings) {
+            settings = await this.settingsRepo.save(this.settingsRepo.create({}));
+        }
         Object.assign(settings, data);
         return this.settingsRepo.save(settings);
     }
