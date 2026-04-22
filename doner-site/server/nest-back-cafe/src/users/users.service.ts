@@ -32,11 +32,13 @@ export class UsersService {
         return this.usersRepository.save(user);
     }
 
-    async findByEmail(email: string): Promise<User | undefined> {
-        return this.usersRepository.findOne({ where: { email } });
+    async findByEmail(email: string): Promise<User | null> {
+        const user = await this.usersRepository.findOne({ where: { email } });
+        return user;
     }
 
-    async findById(id: number): Promise<User | undefined> {
-        return this.usersRepository.findOne({ where: { id } });
+    async findById(id: number): Promise<User | null> {
+        const user = await this.usersRepository.findOne({ where: { id } });
+        return user;
     }
 }
