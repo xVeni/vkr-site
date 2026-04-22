@@ -11,6 +11,8 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./dumpBD:/docker-entrypoint-initdb.d
+    networks:
+      - doner_net
     restart: always
 
   backend:
@@ -20,15 +22,19 @@ services:
     env_file:
       - ./server/nest-back-cafe/.env
     environment:
-      DB_HOST: doner_db
+      DB_HOST: db
     depends_on:
       - db
+    networks:
+      - doner_net
     restart: always
 
   frontend:
     build:
       context: ./client
     container_name: doner_frontend
+    networks:
+      - doner_net
     restart: always
 
   nginx:
@@ -43,7 +49,13 @@ services:
     depends_on:
       - frontend
       - backend
+    networks:
+      - doner_net
     restart: always
+
+networks:
+  doner_net:
+    driver: bridge
 
 volumes:
   pgdata:
