@@ -9,12 +9,11 @@ import { TelegramModule } from 'src/telegram_bot/telegram.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order]), 
+    TypeOrmModule.forFeature([Order]),
     forwardRef(() => OrdersModule),
-    forwardRef(() => TelegramModule)
   ],
-  controllers:[PaymentController],    
+  controllers: [PaymentController],
   providers: [PaymentService],
   exports: [PaymentService],
 })
-export class PaymentModule {}
+export class PaymentModule { }

@@ -86,7 +86,10 @@
 
     .profileInfo {
         .infoRow {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             padding-bottom: 15px;
             border-bottom: 1px solid #f0f0f0;
 
@@ -95,17 +98,19 @@
             }
 
             .label {
+                display: block;
                 color: #888;
-                font-weight: 600;
-                font-size: 13px;
+                font-weight: 700;
+                font-size: 14px;
                 text-transform: uppercase;
-                margin-bottom: 5px;
+                letter-spacing: 0.5px;
             }
 
             .value {
                 font-weight: 700;
                 color: #151616;
-                font-size: 17px;
+                font-size: 19px;
+                word-break: break-all;
             }
         }
     }

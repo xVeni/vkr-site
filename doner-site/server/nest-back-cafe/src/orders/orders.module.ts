@@ -8,11 +8,10 @@ import { PaymentModule } from 'src/payments/payment.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Order]),
-            forwardRef( () =>TelegramModule),
-             forwardRef(() => PaymentModule),
-           ],
+  forwardRef(() => PaymentModule),
+  ],
   controllers: [OrdersController],
   providers: [OrdersService],
-   exports: [OrdersService, TypeOrmModule],
+  exports: [OrdersService, TypeOrmModule],
 })
-export class OrdersModule {}
+export class OrdersModule { }

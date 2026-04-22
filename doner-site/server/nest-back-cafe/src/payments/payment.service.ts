@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { YooCheckout } from '@a2seven/yoo-checkout';
 import * as crypto from 'crypto';
 import { Order } from '../orders/orders.entity';
-import { TelegramService } from '../telegram_bot/telegram.service';
 
 @Injectable()
 export class PaymentService implements OnModuleInit {
@@ -14,8 +13,6 @@ export class PaymentService implements OnModuleInit {
   constructor(
     @InjectRepository(Order)
     private orderRepository: Repository<Order>,
-    private readonly telegramService: TelegramService,
-    // OrdersService НЕ нужен здесь, если обновляем напрямую
   ) { }
 
   onModuleInit() {
@@ -63,16 +60,9 @@ export class PaymentService implements OnModuleInit {
 
     order.is_paid = true;
     order.status = 'paid';
-    order.status_tgBot = 'оплачено';
     await this.orderRepository.save(order);
 
     this.logger.log(`[SIMULATION] Платёж успешно имитирован для заказа #${orderId}`);
-
-    try {
-      await this.telegramService.sendPaymentStatus(order, order.total.toString());
-    } catch (e) {
-      this.logger.error('Ошибка отправки уведомления в Telegram при симуляции', e);
-    }
   }
 
   async handleWebhook(data: any) {

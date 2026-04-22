@@ -9,7 +9,7 @@ import styles from './CabinetBlock.module.scss';
 const CabinetBlock = () => {
     const dispatch = useDispatch();
     const isAuth = useSelector(selectIsAuth);
-    const userData = useSelector((state) => state.auth.data);
+    const { data: userData, status } = useSelector((state) => state.auth);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -35,11 +35,11 @@ const CabinetBlock = () => {
         }
     };
 
-    if (!window.localStorage.getItem('token') && !isAuth) {
+    if (!window.localStorage.getItem('token') || status === 'error') {
         return <Navigate to="/login" />;
     }
 
-    if (!userData) {
+    if (status === 'loading' || !userData) {
         return <div className={styles.cabinetLoading}>Загрузка данных...</div>;
     }
 
