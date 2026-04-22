@@ -13,6 +13,12 @@ export class OrdersService {
   // Создать новый заказ
   async createOrder(orderData: Partial<Order>): Promise<Order> {
     const order = this.ordersRepo.create(orderData);
+
+    // Явно привязываем пользователя, если передан объект с id
+    if (orderData.user && (orderData.user as any).id) {
+      order.user = orderData.user;
+    }
+
     const savedOrder = await this.ordersRepo.save(order);
     return savedOrder;
   }

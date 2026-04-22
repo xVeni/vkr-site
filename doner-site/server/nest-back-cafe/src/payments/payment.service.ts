@@ -33,7 +33,7 @@ export class PaymentService implements OnModuleInit {
   async createPaymentForOrder(order: Order): Promise<{ paymentId: string; confirmationUrl: string }> {
     // ВМЕСТО ЮКАССЫ — РЕДИРЕКТ НА ТЕСТОВУЮ СТРАНИЦУ ОПЛАТЫ
     const paymentId = crypto.randomUUID();
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:3000').replace(/\/$/, '');
     const confirmationUrl = `${frontendUrl}/test-payment/${order.id}`;
 
     order.payment_id = paymentId;
