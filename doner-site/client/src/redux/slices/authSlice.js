@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const register = createAsyncThunk('auth/register', async (params, { rejectWithValue }) => {
     try {
-        const { data } = await axios.post('/api/auth/register', params);
+        const { data } = await axios.post('/auth/register', params);
         return data;
     } catch (err) {
         return rejectWithValue(err.response.data);
@@ -12,7 +12,7 @@ export const register = createAsyncThunk('auth/register', async (params, { rejec
 
 export const login = createAsyncThunk('auth/login', async (params, { rejectWithValue }) => {
     try {
-        const { data } = await axios.post('/api/auth/login', params);
+        const { data } = await axios.post('/auth/login', params);
         return data;
     } catch (err) {
         return rejectWithValue(err.response.data);
@@ -21,7 +21,7 @@ export const login = createAsyncThunk('auth/login', async (params, { rejectWithV
 
 export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, { rejectWithValue }) => {
     try {
-        const { data } = await axios.get('/api/auth/me');
+        const { data } = await axios.get('/auth/me');
         return data;
     } catch (err) {
         return rejectWithValue(err.response.data);
