@@ -17,7 +17,7 @@ export class UsersService implements OnModuleInit {
     }
 
     async seedAdmin() {
-        const adminEmail = 'admin'; // Пользователь просил логин admin
+        const adminEmail = 'admin@admin.ru'; // Сменил на email-формат, чтобы проходила валидация
         const adminUser = await this.findByEmail(adminEmail);
         if (!adminUser) {
             const hashedPassword = await bcrypt.hash('admin1', 10);
@@ -28,7 +28,7 @@ export class UsersService implements OnModuleInit {
                 role: 'admin',
             });
             await this.usersRepository.save(admin);
-            console.log('Admin user seeded successfully');
+            console.log('Admin user seeded successfully with email: admin@admin.ru');
         }
     }
 
