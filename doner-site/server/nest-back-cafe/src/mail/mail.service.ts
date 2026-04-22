@@ -7,20 +7,30 @@ export class MailService {
   private transporter;
 
   constructor(private configService: ConfigService) {
+    const user = this.configService.get('MAIL_USER');
+    const pass = this.configService.get('MAIL_PASS');
+
+    console.log(`MailService initialized with User: ${user ? 'present' : 'MISSING'}`);
+
     this.transporter = nodemailer.createTransport({
       host: 'smtp.mail.ru',
-      port: 465,
-      secure: true, // true for port 465
+      port: 587,
+      secure: false, // false for port 587
       auth: {
-        user: this.configService.get('MAIL_USER'),
-        pass: this.configService.get('MAIL_PASS'),
+        user: user,
+        pass: pass,
       },
+      connectionTimeout: 10000, // 10 seconds
+      greetingTimeout: 10000,
+      socketTimeout: 10000,
     });
   }
 
   async sendOrderNotification(order: any) {
+    console.log(`Attempting to send email for order #${order.id}...`);
+    const user = this.configService.get('MAIL_USER');
     const mailOptions = {
-      from: `"Doner Kebab" <${this.configService.get('MAIL_USER')}>`,
+      from: `"Doner Site" <${user}>`,
       to: 'mxaprostodoxrena@mail.ru', // Always send to this address as requested
       subject: `Новый оплаченный заказ #${order.id}`,
       html: this.generateOrderHtml(order),
