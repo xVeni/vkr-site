@@ -61,7 +61,7 @@ export class DishesService {
     return this.dishRepo.save(dish);
   }
 
-  async update(id: number, data: Partial<Dish>): Promise<Dish> {
+  async update(id: number, data: Partial<Dish>): Promise<Dish | null> {
     // Если пришел полный URL картинки, убираем префикс перед сохранением в БД
     if (data.image && data.image.includes('/images/')) {
       data.image = data.image.split('/images/').pop();
