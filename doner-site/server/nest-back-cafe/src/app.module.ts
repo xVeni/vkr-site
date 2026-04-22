@@ -9,7 +9,6 @@ import { DishesModule } from './dishes/dishes.module';
 import { OrdersModule } from './orders/orders.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { TelegramModule } from './telegram_bot/telegram.module';
 import { PaymentModule } from './payments/payment.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -38,7 +37,6 @@ console.log('STATIC PATH:', join(__dirname, '..', 'uploads'));
     }),
     DishesModule,
     OrdersModule,
-    TelegramModule,
     PaymentModule,
     UsersModule,
     AuthModule,
