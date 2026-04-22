@@ -14,15 +14,20 @@ export class MailService {
 
     this.transporter = nodemailer.createTransport({
       host: 'smtp.mail.ru',
-      port: 587,
-      secure: false, // false for port 587
+      port: 465,
+      secure: true,
       auth: {
         user: user,
         pass: pass,
       },
-      connectionTimeout: 10000, // 10 seconds
-      greetingTimeout: 10000,
-      socketTimeout: 10000,
+      connectionTimeout: 5000,
+      greetingTimeout: 5000,
+      socketTimeout: 5000,
+      debug: true,
+      logger: true, // This will output SMTP stream to console
+      tls: {
+        rejectUnauthorized: false
+      }
     });
   }
 
