@@ -1,14 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, ILike } from 'typeorm';
 import { Dish } from './dishes.entity';
 
 @Injectable()
-export class DishesService {
+export class DishesService implements OnModuleInit {
   constructor(
     @InjectRepository(Dish)
     private dishRepo: Repository<Dish>,
   ) { }
+
+  async onModuleInit() {
+    try {
+      const maxIdRes = await this.dishRepo.query(`SELECT MAX(id) FROM dishes`);
+      const maxId = maxIdRes[0].max;
+      if (maxId) {
+        await this.dishRepo.query(`SELECT setval('dishes_id_seq', ${maxId})`);
+        console.log(`Dishes table sequence synced to ${maxId}`);
+      }
+    } catch (e) {
+      console.warn('Failed to sync dishes sequence:', e.message);
+    }
+  }
 
   private addFullImageUrl(dishes: Dish[] | Dish): any {
     let serverIP = process.env.IP_SERVER || 'localhost:5000';

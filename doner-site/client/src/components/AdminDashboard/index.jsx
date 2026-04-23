@@ -28,8 +28,22 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleExport = () => {
-        window.open(`/api/admin/export/${exportType}?period=${period}`, '_blank');
+    const handleExport = async () => {
+        try {
+            const response = await axios.get(`/api/admin/export/${exportType}?period=${period}`, {
+                responseType: 'blob'
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${exportType}_${period}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (err) {
+            console.error('Ошибка выгрузки', err);
+            alert('Не удалось выгрузить данные. Проверьте права доступа.');
+        }
     };
 
     const pieData = Object.entries(stats.statusStats).map(([name, value]) => ({ name, value }));
@@ -53,15 +67,6 @@ const AdminDashboard = () => {
                         <option value="revenue">Выручка (₽)</option>
                         <option value="orders">Кол-во заказов</option>
                     </select>
-                    <span style={{ borderLeft: '2px solid #ddd', margin: '0 5px' }}></span>
-                    <select value={exportType} onChange={(e) => setExportType(e.target.value)} className={styles.select}>
-                        <option value="orders">Полные заказы</option>
-                        <option value="users">Пользователи</option>
-                        <option value="revenue">Общая выручка</option>
-                        <option value="dishes">Популярность блюд</option>
-                        <option value="status">Кол-во статусов</option>
-                    </select>
-                    <button onClick={handleExport} style={{ padding: '8px 15px', background: '#5e652b', color: '#fff', border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold' }}>Выгрузить CSV</button>
                 </div>
             </div>
 
@@ -138,6 +143,19 @@ const AdminDashboard = () => {
                         </div>
                     ))}
                 </div>
+            </div>
+
+            <div className={styles.exportSection} style={{ marginTop: '40px', padding: '20px', background: '#fff', borderRadius: '15px', display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap', border: '1px solid #ddd' }}>
+                <h3 style={{ margin: 0, color: '#5e652b' }}>Экспорт данных (CSV)</h3>
+                <p style={{ margin: 0, color: '#777', fontSize: '14px', flex: 1, minWidth: '200px' }}>Скачайте подробные отчеты в формате CSV, совместимом с Excel.</p>
+                <select value={exportType} onChange={(e) => setExportType(e.target.value)} className={styles.select}>
+                    <option value="orders">Полные заказы</option>
+                    <option value="users">Все пользователи</option>
+                    <option value="revenue">Общая выручка</option>
+                    <option value="dishes">Популярность блюд</option>
+                    <option value="status">Кол-во статусов</option>
+                </select>
+                <button onClick={handleExport} style={{ padding: '12px 25px', background: '#5e652b', color: '#fff', border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold' }}>Скачать CSV</button>
             </div>
         </div>
     );
