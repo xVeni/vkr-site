@@ -30,6 +30,36 @@
             margin: 0;
         }
 
+        .headerButtons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .reviewBtn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #fe5f1e;
+            border: 2px solid #fe5f1e;
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: #e5541a;
+                border-color: #e5541a;
+                transform: translateY(-2px);
+            }
+
+            &.active {
+                background: #fff;
+                color: #fe5f1e;
+            }
+        }
+
         .logoutBtn {
             display: flex;
             align-items: center;
@@ -47,6 +77,69 @@
                 background: #5e652b;
                 color: #fff;
                 transform: translateY(-2px);
+            }
+        }
+    }
+
+    .reviewForm {
+        margin-bottom: 30px;
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #151616;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-family: inherit;
+            resize: vertical;
+
+            &:focus {
+                outline: none;
+                border-color: #fe5f1e;
+            }
+        }
+
+        .reviewActions {
+            display: flex;
+            gap: 10px;
+
+            button {
+                padding: 10px 25px;
+                border-radius: 20px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .sendBtn {
+                background: #5e652b;
+                color: #fff;
+                border: none;
+
+                &:hover:not(:disabled) {
+                    opacity: 0.9;
+                }
+
+                &:disabled {
+                    background: #ccc;
+                    cursor: not-allowed;
+                }
+            }
+
+            .cancelBtn {
+                background: #f0f0f0;
+                color: #555;
+                border: none;
+
+                &:hover {
+                    background: #e0e0e0;
+                }
             }
         }
     }
@@ -85,6 +178,87 @@
     }
 
     .profileInfo {
+        .profileHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+
+            h2 {
+                margin-bottom: 0;
+            }
+
+            .editBtn {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                background: none;
+                border: 1px solid #ddd;
+                padding: 6px 12px;
+                border-radius: 15px;
+                font-size: 13px;
+                font-weight: 700;
+                color: #888;
+                cursor: pointer;
+                transition: all 0.2s;
+
+                &:hover {
+                    color: #fe5f1e;
+                    border-color: #fe5f1e;
+                }
+            }
+
+            .editActions {
+                display: flex;
+                gap: 5px;
+
+                button {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: none;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+
+                .saveBtn {
+                    background: #5e652b;
+                    color: #fff;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                }
+
+                .cancelEditBtn {
+                    background: #ffeded;
+                    color: #ff4d4d;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+
+        .editInput {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #fe5f1e;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            font-weight: 700;
+
+            &:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(254, 95, 30, 0.1);
+            }
+        }
+
         .infoRow {
             margin-bottom: 25px;
             display: flex;

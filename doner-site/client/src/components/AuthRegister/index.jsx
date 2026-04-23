@@ -25,11 +25,12 @@ const AuthRegister = () => {
     const onSubmit = async (values) => {
         const data = await dispatch(registerUser(values));
 
-        if (!data.payload) {
-            return alert('Не удалось зарегистрироваться');
+        if (data.error) {
+            const message = data.payload?.message || 'Не удалось зарегистрироваться';
+            return alert(message);
         }
 
-        if ('access_token' in data.payload) {
+        if (data.payload && 'access_token' in data.payload) {
             window.localStorage.setItem('token', data.payload.access_token);
         }
     };

@@ -51,4 +51,16 @@ export class AuthService {
             },
         };
     }
+
+    async updateProfile(userId: number, updateData: any) {
+        const user = await this.usersService.update(userId, updateData);
+        return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            phone: user.phone,
+            address: user.address,
+            role: user.role,
+        };
+    }
 }

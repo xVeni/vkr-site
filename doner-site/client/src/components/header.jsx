@@ -1,7 +1,11 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Search from './search';
 
 function Header() {
+  const userData = useSelector((state) => state.auth.data);
+  const cabinetPath = userData?.role === 'admin' ? '/admin' : '/cabinet';
+
   return (
     <div className="header">
       <div className="logo">
@@ -20,7 +24,7 @@ function Header() {
 
       <div className="search-cart">
         <Search />
-        <Link to="/cabinet" className="user-cabinet-link">
+        <Link to={cabinetPath} className="user-cabinet-link">
           <svg
             width="24"
             height="24"

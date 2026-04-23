@@ -24,4 +24,10 @@ export class AuthController {
         const { password, ...userData } = req.user;
         return userData;
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('update') // Или Patch, но Post проще для фронта иногда. Сделаем Post для надежности или Patch
+    async update(@Request() req, @Body() updateData: any) {
+        return this.authService.updateProfile(req.user.id, updateData);
+    }
 }

@@ -36,7 +36,7 @@ export class MailService {
     const user = this.configService.get('MAIL_USER');
     const mailOptions = {
       from: `"Doner Site" <${user}>`,
-      to: 'mxaprostodoxrena@mail.ru', // Always send to this address as requested
+      to: user, // Теперь берем из .env
       subject: `Новый оплаченный заказ #${order.id}`,
       html: this.generateOrderHtml(order),
     };
@@ -47,6 +47,37 @@ export class MailService {
       return info;
     } catch (error) {
       console.error('Error sending email:', error);
+      throw error;
+    }
+  }
+
+  async sendReview(reviewData: { name: string; email: string; text: string }) {
+    const user = this.configService.get('MAIL_USER');
+    const mailOptions = {
+      from: `"Doner Site Reviews" <${user}>`,
+      to: user,
+      subject: `Новый отзыв от ${reviewData.name}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
+          <div style="background: #1e293b; color: white; padding: 20px; text-align: center;">
+            <h1 style="margin: 0;">Новый отзыв</h1>
+          </div>
+          <div style="padding: 20px;">
+            <p><b>Имя:</b> ${reviewData.name}</p>
+            <p><b>Email:</b> ${reviewData.email}</p>
+            <p><b>Текст отзыва:</b></p>
+            <div style="background: #f8fafc; padding: 15px; border-radius: 5px; border-left: 4px solid #1e293b;">
+              ${reviewData.text}
+            </div>
+          </div>
+        </div>
+      `,
+    };
+
+    try {
+      return await this.transporter.sendMail(mailOptions);
+    } catch (error) {
+      console.error('Error sending review email:', error);
       throw error;
     }
   }

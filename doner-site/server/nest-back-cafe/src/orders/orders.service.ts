@@ -22,6 +22,16 @@ export class OrdersService {
     }
 
     const savedOrder = await this.ordersRepo.save(order);
+
+    // Если способ оплаты НЕ онлайн, отправляем уведомление сразу
+    if (savedOrder.paymentMethod !== 'online') {
+      try {
+        await this.mailService.sendOrderNotification(savedOrder);
+      } catch (e) {
+        console.error('Не удалось отправить уведомление о новом заказе:', e);
+      }
+    }
+
     return savedOrder;
   }
 

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { MailService } from './mail/mail.service';
 
@@ -27,5 +27,10 @@ export class AppController {
         { title: 'Тестовый пирожок', quantity: 1, price: 100 }
       ]
     });
+  }
+
+  @Post('send-review')
+  async sendReview(@Body() reviewData: { name: string; email: string; text: string }) {
+    return this.mailService.sendReview(reviewData);
   }
 }

@@ -23,11 +23,12 @@ const AuthLogin = () => {
     const onSubmit = async (values) => {
         const data = await dispatch(login(values));
 
-        if (!data.payload) {
-            return alert('Не удалось авторизоваться');
+        if (data.error) {
+            const message = data.payload?.message || 'Не удалось авторизоваться';
+            return alert(message);
         }
 
-        if ('access_token' in data.payload) {
+        if (data.payload && 'access_token' in data.payload) {
             window.localStorage.setItem('token', data.payload.access_token);
         }
     };

@@ -28,6 +28,15 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, { reje
     }
 });
 
+export const updateProfile = createAsyncThunk('auth/updateProfile', async (params, { rejectWithValue }) => {
+    try {
+        const { data } = await axios.post('/api/auth/update', params);
+        return data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+});
+
 const initialState = {
     data: null,
     status: 'loading',
@@ -81,6 +90,9 @@ const authSlice = createSlice({
             .addCase(fetchAuthMe.rejected, (state) => {
                 state.status = 'error';
                 state.data = null;
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.data = action.payload;
             });
     },
 });

@@ -65,4 +65,9 @@ export class UsersService implements OnModuleInit {
         const user = await this.usersRepository.findOne({ where: { id } });
         return user;
     }
+
+    async update(id: number, updateData: Partial<User>): Promise<User> {
+        await this.usersRepository.update(id, updateData);
+        return this.findById(id);
+    }
 }
