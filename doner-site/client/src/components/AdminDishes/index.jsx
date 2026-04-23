@@ -50,16 +50,29 @@ const AdminDishes = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const payload = { ...formData };
+        if (payload.discountPrice === '') {
+            payload.discountPrice = null;
+        } else if (payload.discountPrice !== null) {
+            payload.discountPrice = Number(payload.discountPrice);
+        }
+
+        if (payload.price) payload.price = Number(payload.price);
+        if (payload.weight) payload.weight = Number(payload.weight);
+        if (payload.category) payload.category = Number(payload.category);
+
         try {
             if (editingDish) {
-                await axios.patch(`/api/dishes/${editingDish.id}`, formData);
+                await axios.patch(`/api/dishes/${editingDish.id}`, payload);
             } else {
-                await axios.post('/api/dishes', formData);
+                await axios.post('/api/dishes', payload);
             }
             setIsModalOpen(false);
             fetchDishes();
         } catch (err) {
-            alert('Ошибка при сохранении');
+            alert('Ошибка при сохранении: убедитесь, что все числовые поля заполнены корректно');
+            console.error(err);
         }
     };
 

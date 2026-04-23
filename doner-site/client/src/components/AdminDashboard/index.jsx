@@ -13,6 +13,8 @@ const AdminDashboard = () => {
     const [chartType, setChartType] = useState('line');
     const [metric, setMetric] = useState('revenue');
 
+    const [exportType, setExportType] = useState('orders');
+
     useEffect(() => {
         fetchStats();
     }, [period]);
@@ -24,6 +26,10 @@ const AdminDashboard = () => {
         } catch (err) {
             console.error('Ошибка при загрузке статистики', err);
         }
+    };
+
+    const handleExport = () => {
+        window.open(`/api/admin/export/${exportType}?period=${period}`, '_blank');
     };
 
     const pieData = Object.entries(stats.statusStats).map(([name, value]) => ({ name, value }));
@@ -47,6 +53,15 @@ const AdminDashboard = () => {
                         <option value="revenue">Выручка (₽)</option>
                         <option value="orders">Кол-во заказов</option>
                     </select>
+                    <span style={{ borderLeft: '2px solid #ddd', margin: '0 5px' }}></span>
+                    <select value={exportType} onChange={(e) => setExportType(e.target.value)} className={styles.select}>
+                        <option value="orders">Полные заказы</option>
+                        <option value="users">Пользователи</option>
+                        <option value="revenue">Общая выручка</option>
+                        <option value="dishes">Популярность блюд</option>
+                        <option value="status">Кол-во статусов</option>
+                    </select>
+                    <button onClick={handleExport} style={{ padding: '8px 15px', background: '#5e652b', color: '#fff', border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold' }}>Выгрузить CSV</button>
                 </div>
             </div>
 

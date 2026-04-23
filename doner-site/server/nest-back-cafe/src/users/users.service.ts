@@ -61,6 +61,10 @@ export class UsersService implements OnModuleInit {
         return user;
     }
 
+    async findAll(): Promise<User[]> {
+        return this.usersRepository.find();
+    }
+
     async findById(id: number): Promise<User | null> {
         const user = await this.usersRepository.findOne({ where: { id } });
         return user;
