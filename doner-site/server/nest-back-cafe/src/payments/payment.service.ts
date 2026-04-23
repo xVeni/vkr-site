@@ -1,9 +1,10 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { YooCheckout } from '@a2seven/yoo-checkout';
 import * as crypto from 'crypto';
 import { Order } from '../orders/orders.entity';
+import { OrdersService } from '../orders/orders.service';
 
 @Injectable()
 export class PaymentService implements OnModuleInit {
@@ -13,6 +14,8 @@ export class PaymentService implements OnModuleInit {
   constructor(
     @InjectRepository(Order)
     private orderRepository: Repository<Order>,
+    @Inject(forwardRef(() => OrdersService))
+    private ordersService: OrdersService,
   ) { }
 
   onModuleInit() {
@@ -57,9 +60,7 @@ export class PaymentService implements OnModuleInit {
       return;
     }
 
-    order.is_paid = true;
-    order.status = 'paid';
-    await this.orderRepository.save(order);
+    await this.ordersService.updateAfterPayment(orderId);
 
     this.logger.log(`[SIMULATION] Платёж успешно имитирован для заказа #${orderId}`);
   }
