@@ -79,10 +79,22 @@ const AdminDishes = () => {
     const openModal = (dish = null) => {
         if (dish) {
             setEditingDish(dish);
-            setFormData(dish);
+            const dataToEdit = { ...dish };
+            if (dataToEdit.discountPrice === null) dataToEdit.discountPrice = '';
+            setFormData(dataToEdit);
         } else {
             setEditingDish(null);
-            setFormData({ title: '', price: '', weight: '', category: '', desc: '', image: '' });
+            setFormData({
+                title: '',
+                price: '',
+                weight: '',
+                category: '',
+                desc: '',
+                image: '',
+                discountPrice: '',
+                isSeasonal: false,
+                best_sell: 0
+            });
         }
         setIsModalOpen(true);
     };
