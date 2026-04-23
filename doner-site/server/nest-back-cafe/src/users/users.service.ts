@@ -68,6 +68,10 @@ export class UsersService implements OnModuleInit {
 
     async update(id: number, updateData: Partial<User>): Promise<User> {
         await this.usersRepository.update(id, updateData);
-        return this.findById(id);
+        const user = await this.findById(id);
+        if (!user) {
+            throw new Error(`User with ID ${id} not found`);
+        }
+        return user;
     }
 }
