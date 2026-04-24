@@ -210,7 +210,7 @@ export const Home = () => {
       <Categories value={categoryId} onClickCategory={onClickCategory} settings={settings} />
 
       <div className="bestsellers">
-        <div className="product-grid">
+        <div className="product-grid" key={`${categoryId}-${status}`} style={{ animation: 'smoothFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
           {status === 'loading' ? (
             [...new Array(8)].map((_, index) => <Skeleton key={index} />)
           ) : status === 'error' ? (
