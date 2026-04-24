@@ -11,3 +11,41 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Глобальные плавные анимации переходов */
+
+@keyframes smoothFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Анимация появления для основного контента */
+#root>div {
+  animation: smoothFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Плавный скролл страницы */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Универсальные плавные переходы для интерактивных элементов */
+a,
+button,
+input,
+select,
+textarea {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Микро-анимация нажатия кнопок для большей интерактивости */
+button:not(:disabled):active {
+  transform: scale(0.96) !important;
+}
