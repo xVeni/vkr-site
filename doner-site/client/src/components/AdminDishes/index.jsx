@@ -140,7 +140,18 @@ const AdminDishes = () => {
                             <input type="text" placeholder="Название" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} required />
                             <input type="number" placeholder="Цена" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} required />
                             <input type="number" placeholder="Вес" value={formData.weight} onChange={e => setFormData({ ...formData, weight: e.target.value })} required />
-                            <input type="number" placeholder="ID Категории" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} required />
+                            <select
+                                value={formData.category}
+                                onChange={e => setFormData({ ...formData, category: e.target.value })}
+                                required
+                                style={{ padding: '15px', borderRadius: '15px', border: '1px solid #ddd', fontFamily: 'inherit', marginBottom: '15px', width: '100%' }}
+                            >
+                                <option value="" disabled>Выберите категорию</option>
+                                <option value="2">Шаурма / Кебаб</option>
+                                <option value="3">Бртуч / Бургер / Ролл</option>
+                                <option value="5">Стрит (закуски)</option>
+                                <option value="4">Напитки</option>
+                            </select>
                             <textarea placeholder="Описание" value={formData.desc} onChange={e => setFormData({ ...formData, desc: e.target.value })} />
 
                             <div style={{ display: 'flex', gap: '10px' }}>

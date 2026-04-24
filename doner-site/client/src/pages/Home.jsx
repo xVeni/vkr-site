@@ -163,6 +163,10 @@ export const Home = () => {
       return sortBestSellers(filtered);
     }
 
+    if (categoryId === 6) {
+      return filtered.filter(item => item.isSeasonal);
+    }
+
     filtered = filtered.filter((item) => item.category === categoryId);
 
     switch (categoryId) {
@@ -174,9 +178,6 @@ export const Home = () => {
 
       case 5:
         return sortStreet(filtered);
-
-      case 6:
-        return filtered.filter(item => item.isSeasonal);
 
       default:
         return filtered;
