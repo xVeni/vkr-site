@@ -32,15 +32,22 @@ export class DishesService implements OnModuleInit {
     if (!dishes) return null;
 
     if (Array.isArray(dishes)) {
-      return dishes.map(d => ({
-        ...d,
-        image: `https://${serverIP}/images/${d.image}`,
-      }));
+      return dishes.map(d => {
+        let name = d.image || '';
+        if (name.startsWith('/images/')) name = name.replace('/images/', '');
+        return {
+          ...d,
+          image: name.startsWith('http') ? name : `https://${serverIP}/images/${name}`,
+        };
+      });
     }
+
+    let singleName = (dishes as any).image || '';
+    if (singleName.startsWith('/images/')) singleName = singleName.replace('/images/', '');
 
     return {
       ...dishes,
-      image: `http://${serverIP}/images/${(dishes as any).image}`,
+      image: singleName.startsWith('http') ? singleName : `https://${serverIP}/images/${singleName}`,
     };
   }
 
@@ -75,6 +82,12 @@ export class DishesService implements OnModuleInit {
   }
 
   async create(data: Partial<Dish>): Promise<Dish> {
+    if (data.image && data.image.includes('/images/')) {
+      data.image = data.image.split('/images/').pop();
+    }
+    if (data.best_sell === undefined || data.best_sell === null) data.best_sell = 0;
+    if (data.isSeasonal === undefined || data.isSeasonal === null) data.isSeasonal = false;
+
     const dish = this.dishRepo.create(data);
     return this.dishRepo.save(dish);
   }
