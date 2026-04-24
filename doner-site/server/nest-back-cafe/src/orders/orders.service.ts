@@ -42,6 +42,21 @@ export class OrdersService {
     });
   }
 
+  // Получить заказы с пагинацией
+  async getPaginated(status?: string, page: number = 1, limit: number = 10): Promise<{ data: Order[], total: number }> {
+    const where = status ? { status } : {};
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await this.ordersRepo.findAndCount({
+      where,
+      order: { created_at: 'DESC' },
+      skip,
+      take: limit,
+    });
+
+    return { data, total };
+  }
+
   // Получить заказы по статусу
   getByStatus(status: string): Promise<Order[]> {
     return this.ordersRepo.find({ where: { status } });

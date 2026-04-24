@@ -5,14 +5,25 @@ import styles from './AdminOrders.module.scss';
 const AdminOrders = () => {
     const [orders, setOrders] = useState([]);
     const [filter, setFilter] = useState('');
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const limit = 10;
 
     useEffect(() => {
         fetchOrders();
-    }, [filter]);
+    }, [filter, page]);
 
     const fetchOrders = async () => {
-        const { data } = await axios.get(`/api/orders${filter ? `?status=${filter}` : ''}`);
-        setOrders(data);
+        const queryParams = [`page=${page}`, `limit=${limit}`];
+        if (filter) queryParams.push(`status=${filter}`);
+
+        const { data } = await axios.get(`/api/orders?${queryParams.join('&')}`);
+        setOrders(data.data || []);
+        if (data.total) {
+            setTotalPages(Math.ceil(data.total / limit) || 1);
+        } else {
+            setTotalPages(1);
+        }
     };
 
     const handleStatusChange = async (orderId, newStatus) => {
@@ -39,7 +50,7 @@ const AdminOrders = () => {
         <div className={styles.root}>
             <div className={styles.header}>
                 <h1>Управление заказами</h1>
-                <select value={filter} onChange={(e) => setFilter(e.target.value)} className={styles.select}>
+                <select value={filter} onChange={(e) => { setFilter(e.target.value); setPage(1); }} className={styles.select}>
                     <option value="">Все статусы</option>
                     <option value="new">Новые</option>
                     <option value="cooking">Готовятся</option>
@@ -82,6 +93,26 @@ const AdminOrders = () => {
                     </div>
                 ))}
             </div>
+
+            {totalPages > 1 && (
+                <div className={styles.pagination} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px', margin: '20px 0', padding: '15px' }}>
+                    <button
+                        disabled={page === 1}
+                        onClick={() => setPage(page - 1)}
+                        style={{ padding: '8px 15px', borderRadius: '8px', border: '1px solid #ccc', background: page === 1 ? '#eee' : '#fff', cursor: page === 1 ? 'not-allowed' : 'pointer' }}
+                    >
+                        &larr; Назад
+                    </button>
+                    <span style={{ fontWeight: 'bold' }}>Страница {page} из {totalPages}</span>
+                    <button
+                        disabled={page === totalPages}
+                        onClick={() => setPage(page + 1)}
+                        style={{ padding: '8px 15px', borderRadius: '8px', border: '1px solid #ccc', background: page === totalPages ? '#eee' : '#fff', cursor: page === totalPages ? 'not-allowed' : 'pointer' }}
+                    >
+                        Вперед &rarr;
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

@@ -58,7 +58,11 @@ export class OrdersController {
 
 
   // Получить все заказы
-  @Get() getAll(@Query('status') status?: string): Promise<Order[]> {
+  @Get()
+  getAll(@Query('status') status?: string, @Query('page') page?: string, @Query('limit') limit?: string): Promise<any> {
+    if (page && limit) {
+      return this.ordersService.getPaginated(status, parseInt(page, 10), parseInt(limit, 10));
+    }
     if (status) {
       return this.ordersService.getByStatus(status);
     }

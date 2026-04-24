@@ -5,7 +5,8 @@ export const fetchDish = createAsyncThunk(
   'dish/fetchDishStatus',
   async ({ categoryId, search }, { rejectWithValue }) => {
     try {
-      const categoryParam = categoryId > 1 ? `category=${categoryId}&` : '';
+      const sanitizedCategoryId = categoryId === 6 ? 0 : categoryId;
+      const categoryParam = sanitizedCategoryId > 1 ? `category=${sanitizedCategoryId}&` : '';
       const searchParam = search ? `search=${encodeURIComponent(search)}` : '';
       //https://6909ebe21a446bb9cc209955.mockapi.io/Items?
       const url = `/api/dishes?${categoryParam}${searchParam}`;
