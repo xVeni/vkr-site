@@ -225,11 +225,10 @@ export const Home = () => {
       <Sale />
       <Categories value={categoryId} onClickCategory={onClickCategory} settings={settings} />
 
-      <div className="sort-container" style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 20px', marginBottom: '10px' }}>
+      <div className="sort-container">
         <select 
           value={sortType} 
           onChange={(e) => dispatch(setSortType(e.target.value))}
-          style={{ padding: '8px 15px', borderRadius: '10px', border: '1px solid #eee', background: '#fff', fontSize: '14px', cursor: 'pointer', outline: 'none' }}
         >
           <option value="default">Сортировка: По умолчанию</option>
           <option value="priceAsc">Сначала дешевле</option>

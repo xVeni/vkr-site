@@ -76,6 +76,24 @@
             padding: 30px;
             border-radius: 20px;
             width: 400px;
+            max-height: 90vh; /* Предотвращаем выход за пределы экрана */
+            overflow-y: auto; /* Добавляем прокрутку */
+
+            /* Кастомный скроллбар для модалки */
+            &::-webkit-scrollbar {
+                width: 8px;
+            }
+            &::-webkit-scrollbar-track {
+                background: #f1f1f1; 
+                border-radius: 10px;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: #c1c1c1; 
+                border-radius: 10px;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+                background: #a8a8a8; 
+            }
 
             form {
                 display: flex;
@@ -88,6 +106,7 @@
                     border-radius: 8px;
                     border: 1px solid #ddd;
                     width: 100%;
+                    box-sizing: border-box; /* Важно для предотвращения вылезания input'ов */
                 }
             }
 
