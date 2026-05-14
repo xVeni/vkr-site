@@ -149,44 +149,25 @@ export const Home = () => {
       filtered = filtered.filter(item => !item.isSeasonal);
     }
 
-    // Если есть поиск, мы НЕ фильтруем по категории на фронте, 
-    // так как сервер уже выдал нам нужные результаты для категории 1 (Все) + поиск
-    if (searchValue) {
-      return sortBestSellers(filtered);
-    }
-
-    if (categoryId === 0) {
-      filtered = filtered.filter((item) => item.best_sell === 1);
-      return sortBestSellers(filtered);
-    }
-
-    if (categoryId === 1) {
-      return sortBestSellers(filtered);
-    }
-
-    if (categoryId === 6) {
-      return filtered.filter(item => item.isSeasonal);
-    }
-
-    filtered = filtered.filter((item) => item.category === categoryId);
-
     let result = filtered;
-    switch (categoryId) {
-      case 2:
-        result = sortShaurma(filtered);
-        break;
-      case 4:
-        result = sortDrinks(filtered);
-        break;
-      case 5:
-        result = sortStreet(filtered);
-        break;
-      default:
-        result = filtered;
+
+    // Сначала фильтруем по категории или поиску
+    if (searchValue) {
+      // Если есть поиск, сервер уже всё отфильтровал
+      result = filtered;
+    } else if (categoryId === 0) {
+      result = filtered.filter((item) => item.best_sell === 1);
+    } else if (categoryId === 1) {
+      result = filtered;
+    } else if (categoryId === 6) {
+      result = filtered.filter(item => item.isSeasonal);
+    } else {
+      result = filtered.filter((item) => item.category === categoryId);
     }
 
-    // Применяем пользовательскую сортировку, если она не 'default'
+    // Затем применяем сортировку
     if (sortType !== 'default') {
+      // Пользовательская сортировка (по цене, по весу)
       result = [...result].sort((a, b) => {
         const getPrice = (item) => item.discountPrice || item.price;
         if (sortType === 'priceAsc') return getPrice(a) - getPrice(b);
@@ -195,6 +176,18 @@ export const Home = () => {
         if (sortType === 'weightDesc') return b.weight - a.weight;
         return 0;
       });
+    } else {
+      // Дефолтная "умная" сортировка магазина
+      if (searchValue || categoryId === 0 || categoryId === 1) {
+        result = sortBestSellers(result);
+      } else if (categoryId === 2) {
+        result = sortShaurma(result);
+      } else if (categoryId === 4) {
+        result = sortDrinks(result);
+      } else if (categoryId === 5) {
+        result = sortStreet(result);
+      }
+      // Для categoryId === 6 (Сезонное) и других категорий без специфичной логики оставляем как есть
     }
 
     return result;
