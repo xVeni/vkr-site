@@ -10,8 +10,12 @@ const ProductModal = ({ item, onClose }) => {
 
   const addedCount = cartItem ? cartItem.count : 0;
 
+  const isDiscountActive = item.discountPrice && (!item.discountUntil || new Date(item.discountUntil) > new Date());
+  const finalPrice = isDiscountActive ? item.discountPrice : item.price;
+
   const onClickAdd = () => {
-    dispatch(addItem({ id: item.id, title: item.title, price: item.price, image: item.image }));
+    if (!item.inStock) return;
+    dispatch(addItem({ id: item.id, title: item.title, price: finalPrice, image: item.image }));
   };
 
   if (!item) return null;
@@ -23,18 +27,43 @@ const ProductModal = ({ item, onClose }) => {
           <IoClose size={24} />
         </button>
 
-        <img src={item.image} alt={item.title} className={styles.image} />
+        <img src={item.image} alt={item.title} className={`${styles.image} ${!item.inStock ? styles.outOfStockImg : ''}`} />
         <h2>{item.title}</h2>
+        
+        {(item.calories > 0 || item.proteins > 0 || item.fats > 0 || item.carbohydrates > 0) && (
+          <div className={styles.kbju}>
+            <div className={styles.kbjuItem}>
+              <span>{item.calories}</span>
+              <label>ккал</label>
+            </div>
+            <div className={styles.kbjuItem}>
+              <span>{item.proteins}г</span>
+              <label>белки</label>
+            </div>
+            <div className={styles.kbjuItem}>
+              <span>{item.fats}г</span>
+              <label>жиры</label>
+            </div>
+            <div className={styles.kbjuItem}>
+              <span>{item.carbohydrates}г</span>
+              <label>углеводы</label>
+            </div>
+          </div>
+        )}
+
         <p className={styles.desc}>{item.desc}</p>
         <div className={styles.footer}>
-          <span className={styles.price}>{item.price} ₽</span>
-          <button onClick={onClickAdd} className={styles.addBtn}>
-            В корзину {addedCount > 0 && `(${addedCount})`}
+          <div className={styles.priceBlock}>
+            <span className={styles.price}>{finalPrice} ₽</span>
+            {isDiscountActive && <span className={styles.oldPrice}>{item.price} ₽</span>}
+          </div>
+          <button onClick={onClickAdd} className={styles.addBtn} disabled={!item.inStock}>
+            {!item.inStock ? 'Нет в наличии' : `В корзину ${addedCount > 0 ? `(${addedCount})` : ''}`}
           </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default ProductModal;

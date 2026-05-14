@@ -16,6 +16,11 @@ const AdminDishes = () => {
         discountPrice: '',
         isSeasonal: false,
         best_sell: 0,
+        calories: 0,
+        proteins: 0,
+        fats: 0,
+        carbohydrates: 0,
+        inStock: true,
     });
 
     useEffect(() => {
@@ -61,6 +66,10 @@ const AdminDishes = () => {
         if (payload.price) payload.price = Number(payload.price);
         if (payload.weight) payload.weight = Number(payload.weight);
         if (payload.category) payload.category = Number(payload.category);
+        if (payload.calories) payload.calories = Number(payload.calories);
+        if (payload.proteins) payload.proteins = Number(payload.proteins);
+        if (payload.fats) payload.fats = Number(payload.fats);
+        if (payload.carbohydrates) payload.carbohydrates = Number(payload.carbohydrates);
 
         try {
             if (editingDish) {
@@ -93,7 +102,12 @@ const AdminDishes = () => {
                 image: '',
                 discountPrice: '',
                 isSeasonal: false,
-                best_sell: 0
+                best_sell: 0,
+                calories: 0,
+                proteins: 0,
+                fats: 0,
+                carbohydrates: 0,
+                inStock: true
             });
         }
         setIsModalOpen(true);
@@ -167,6 +181,29 @@ const AdminDishes = () => {
                                     <input type="checkbox" checked={formData.best_sell === 1} onChange={e => setFormData({ ...formData, best_sell: e.target.checked ? 1 : 0 })} />
                                     Хит продаж
                                 </label>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: formData.inStock ? 'inherit' : '#e74c3c', fontWeight: 'bold' }}>
+                                    <input type="checkbox" checked={formData.inStock} onChange={e => setFormData({ ...formData, inStock: e.target.checked })} />
+                                    В наличии
+                                </label>
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '15px' }}>
+                                <div>
+                                    <label style={{ fontSize: '12px', color: '#666' }}>Белки (г)</label>
+                                    <input type="number" step="0.1" value={formData.proteins} onChange={e => setFormData({ ...formData, proteins: e.target.value })} />
+                                </div>
+                                <div>
+                                    <label style={{ fontSize: '12px', color: '#666' }}>Жиры (г)</label>
+                                    <input type="number" step="0.1" value={formData.fats} onChange={e => setFormData({ ...formData, fats: e.target.value })} />
+                                </div>
+                                <div>
+                                    <label style={{ fontSize: '12px', color: '#666' }}>Углеводы (г)</label>
+                                    <input type="number" step="0.1" value={formData.carbohydrates} onChange={e => setFormData({ ...formData, carbohydrates: e.target.value })} />
+                                </div>
+                                <div>
+                                    <label style={{ fontSize: '12px', color: '#666' }}>Калории (ккал)</label>
+                                    <input type="number" step="0.1" value={formData.calories} onChange={e => setFormData({ ...formData, calories: e.target.value })} />
+                                </div>
                             </div>
 
                             <label>Фото блюда</label>

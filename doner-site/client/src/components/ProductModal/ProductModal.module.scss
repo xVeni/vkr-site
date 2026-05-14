@@ -70,11 +70,69 @@
   background-color: #5e652b;
   border: none;
   border-radius: 12px;
-  padding: 8px 16px;
+  padding: 10px 20px;
   cursor: pointer;
   font-weight: 600;
-  &:hover {
-    background-color: #5e652b;
+  transition: all 0.2s;
+  &:hover:not(:disabled) {
+    background-color: darken(#5e652b, 10%);
+  }
+  &:disabled {
+    background-color: #ccc;
+    cursor: default;
+  }
+}
+
+.kbju {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 15px;
+
+  .kbjuItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    span {
+      font-weight: 800;
+      font-size: 14px;
+      color: #333;
+    }
+
+    label {
+      font-size: 10px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+  }
+}
+
+.outOfStockImg {
+  filter: grayscale(1);
+  opacity: 0.7;
+}
+
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+
+  .price {
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .oldPrice {
+    font-size: 14px;
+    color: #bbb;
+    text-decoration: line-through;
+    margin-top: -4px;
   }
 }
 

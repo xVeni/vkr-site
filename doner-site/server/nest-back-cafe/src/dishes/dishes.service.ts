@@ -87,6 +87,11 @@ export class DishesService implements OnModuleInit {
     }
     if (data.best_sell === undefined || data.best_sell === null) data.best_sell = 0;
     if (data.isSeasonal === undefined || data.isSeasonal === null) data.isSeasonal = false;
+    if (data.inStock === undefined || data.inStock === null) data.inStock = true;
+    if (data.calories === undefined || data.calories === null) data.calories = 0;
+    if (data.proteins === undefined || data.proteins === null) data.proteins = 0;
+    if (data.fats === undefined || data.fats === null) data.fats = 0;
+    if (data.carbohydrates === undefined || data.carbohydrates === null) data.carbohydrates = 0;
 
     const dish = this.dishRepo.create(data);
     return this.dishRepo.save(dish);

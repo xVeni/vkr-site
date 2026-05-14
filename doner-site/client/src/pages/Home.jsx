@@ -6,7 +6,7 @@ import Sale from '../components/Hero/sale';
 import Categories from '../components/categories';
 import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId, setSortType } from '../redux/slices/filterSlice';
 import { fetchDish } from '../redux/slices/dishesSlice';
 import ProductModal from '../components/ProductModal/ProductModal';
 import FloatingCartButton from '../components/FloatingCartButton/FloatingCartButton';
@@ -15,6 +15,7 @@ export const Home = () => {
   const dispatch = useDispatch();
   const { items, status } = useSelector((state) => state.dish);
   const categoryId = useSelector((state) => state.filter.categoryId);
+  const sortType = useSelector((state) => state.filter.sortType);
   const { searchValue } = React.useContext(SearchContext);
 
   // ---------- ШАУРМА ----------
@@ -169,20 +170,35 @@ export const Home = () => {
 
     filtered = filtered.filter((item) => item.category === categoryId);
 
+    let result = filtered;
     switch (categoryId) {
       case 2:
-        return sortShaurma(filtered);
-
+        result = sortShaurma(filtered);
+        break;
       case 4:
-        return sortDrinks(filtered);
-
+        result = sortDrinks(filtered);
+        break;
       case 5:
-        return sortStreet(filtered);
-
+        result = sortStreet(filtered);
+        break;
       default:
-        return filtered;
+        result = filtered;
     }
-  }, [items, categoryId, searchValue, settings]);
+
+    // Применяем пользовательскую сортировку, если она не 'default'
+    if (sortType !== 'default') {
+      result = [...result].sort((a, b) => {
+        const getPrice = (item) => item.discountPrice || item.price;
+        if (sortType === 'priceAsc') return getPrice(a) - getPrice(b);
+        if (sortType === 'priceDesc') return getPrice(b) - getPrice(a);
+        if (sortType === 'weightAsc') return a.weight - b.weight;
+        if (sortType === 'weightDesc') return b.weight - a.weight;
+        return 0;
+      });
+    }
+
+    return result;
+  }, [items, categoryId, searchValue, settings, sortType]);
 
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -208,6 +224,20 @@ export const Home = () => {
     <>
       <Sale />
       <Categories value={categoryId} onClickCategory={onClickCategory} settings={settings} />
+
+      <div className="sort-container" style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 20px', marginBottom: '10px' }}>
+        <select 
+          value={sortType} 
+          onChange={(e) => dispatch(setSortType(e.target.value))}
+          style={{ padding: '8px 15px', borderRadius: '10px', border: '1px solid #eee', background: '#fff', fontSize: '14px', cursor: 'pointer', outline: 'none' }}
+        >
+          <option value="default">Сортировка: По умолчанию</option>
+          <option value="priceAsc">Сначала дешевле</option>
+          <option value="priceDesc">Сначала дороже</option>
+          <option value="weightAsc">По весу: Меньше</option>
+          <option value="weightDesc">По весу: Больше</option>
+        </select>
+      </div>
 
       <div className="bestsellers">
         <div className="product-grid" key={`${categoryId}-${status}`} style={{ animation: 'smoothFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}>
